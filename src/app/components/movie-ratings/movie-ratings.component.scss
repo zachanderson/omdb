@@ -1,0 +1,19 @@
+strong {
+    display: inline-block;
+    width: 190px;
+}
+
+.bar{
+    border: 1px solid navy;
+    background: #ddf;
+    height:1em;
+    width:250px;
+    display: inline-block;
+    .filler{
+        width:0;
+       transition: width 2s;
+       display: inline-block;
+       height: 100%;
+       background: greenyellow;
+    }
+}

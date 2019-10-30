@@ -1,0 +1,7 @@
+<p>movie-detail works!</p>
+{{movie | json}}
+<hr>
+<h2> Ratings</h2>
+<app-movie-ratings [ratings]="movie.Ratings"></app-movie-ratings>
+<hr>
+<a [routerLink]="['/']">back</a>

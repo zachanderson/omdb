@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SearchResponse } from '../interfaces/movie';
-import { BehaviorSubject } from 'rxjs';
+import { SearchResponse, MovieDetail } from '../interfaces/movie';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -9,8 +9,8 @@ import { tap } from 'rxjs/operators';
 })
 export class OmdbService {
 
-  private host: string='http://www.omdbapi.com';
-  private apiKey: string='3af8194f';
+  private _host: string='http://www.omdbapi.com';
+  private _apiKey: string='3af8194f';
   private _lastSearch: string;
 
   searchResponse$: BehaviorSubject<SearchResponse | undefined> = new BehaviorSubject<SearchResponse>(undefined);  
@@ -22,7 +22,7 @@ export class OmdbService {
     this._lastSearch=term;
 
     this.httpClient
-    .get<SearchResponse>(`${this.host}?apikey=${this.apiKey}&page=${page}&s=${encodeURIComponent(term)}`)
+    .get<SearchResponse>(`${this._host}?apikey=${this._apiKey}&page=${page}&s=${encodeURIComponent(term)}`)
     .pipe(
       tap((value: SearchResponse) => {
         this.searchResponse$.next(value);
@@ -35,5 +35,11 @@ export class OmdbService {
 
   pager(page: number){
     this.search(this._lastSearch, page);
+  }
+
+
+  getSingle(id:string): Observable<MovieDetail>{
+    return this.httpClient
+    .get<MovieDetail>(`${this._host}?apikey=${this._apiKey}&i=${id}`);
   }
 }
